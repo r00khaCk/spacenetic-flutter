@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
     void fetchPlanetsInfo() async {
       String jsonPlanetInfo = await loadAsset();
 
@@ -40,6 +41,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        // appBar: AppBar(
+        //   centerTitle: true,
+        //   title: Text("Home"),
+        //   backgroundColor: Colors.black87,
+        //   toolbarHeight: 60,
+        //   shadowColor: Colors.white12,
+        // ),
         body: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
@@ -48,24 +56,11 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10),
+                padding: const EdgeInsets.only(left: 10.0, right: 10, top: 50),
                 child: Row(
                   children: [
-                    Container(
-                        width: 150,
-                        height: 80,
-                        padding:
-                            const EdgeInsets.only(left: 20, top: 40, bottom: 5),
-                        child: const Text(
-                            style: TextStyle(
-                                fontSize: 30,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1),
-                            "Hi user,")),
-                    const Spacer(),
                     const Padding(
-                      padding: EdgeInsets.only(right: 20, top: 40),
+                      padding: EdgeInsets.only(right: 20, top: 0),
                       child: SizedBox(
                           height: 35,
                           child: Icon(
@@ -74,31 +69,52 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.white,
                           )),
                     ),
+                    const Spacer(),
+                    Container(
+                        width: 150,
+                        height: 80,
+                        padding:
+                            const EdgeInsets.only(left: 20, top: 20, bottom: 5),
+                        child: const Text(
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1),
+                            "Hi User,")),
                   ],
                 ),
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Container(
-                    margin: EdgeInsets.only(right: 10),
-                    width: 200,
-                    height: 50,
-                    padding: const EdgeInsets.only(left: 30),
-                    child: const Text(
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.white,
-                        ),
-                        "Let's Explore")),
-              ]),
+              Padding(
+                padding: const EdgeInsets.only(left: 70.0),
+                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  Container(
+                      //margin: EdgeInsets.only(right: 10),
+                      width: 320,
+                      height: 30,
+                      padding: const EdgeInsets.only(
+                        left: 75,
+                      ),
+                      child: const Text(
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.white,
+                          ),
+                          "Let's Explore Our Solar System!")),
+                ]),
+              ),
               Expanded(
                 child: Center(
                   child: CarouselSlider.builder(
-                    options: CarouselOptions(height: 300),
+                    options: CarouselOptions(
+                        height: 300,
+                        enlargeCenterPage: true,
+                        enlargeFactor: 0.6),
                     itemCount: planetImg.length,
                     itemBuilder: (context, index, realIndex) {
-                      final planetImage = planetImg[index].imagePath;
-
-                      return buildImage(planetImage!, index);
+                      final planetImage = planetImg[index].imagePath ?? "";
+                      final planetName = planetImg[index].name ?? "";
+                      return buildImage(planetImage, planetName, index);
                     },
                   ),
                 ),
@@ -110,12 +126,24 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildImage(String planetImage, int index) => Container(
+  Widget buildImage(String planetImage, String planetName, int index) => Column(
+        //mainAxisAlignment: MainAxisAlignment.center,
         //margin: EdgeInsets.symmetric(horizontal: 5),
         // color: Colors.grey,
-        child: Image.asset(
-          planetImage,
-          fit: BoxFit.cover,
-        ),
+        children: [
+          Expanded(
+            child: Image.asset(
+              planetImage,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Text(
+            planetName,
+            style: TextStyle(
+              fontSize: 30,
+              color: Colors.white,
+            ),
+          )
+        ],
       );
 }
