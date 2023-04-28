@@ -21,7 +21,7 @@ Future<List<PlanetDetails>> loadPlanetDetails() async {
   for (var planet in jsonResult['planet_details']) {
     PlanetDetails planetDetail = PlanetDetails(
         name: planet['name'],
-        imagePath: 'assets/images/${planet['name']}.png',
+        imagePath: planet['imagePath'],
         description: planet['description']);
     planetDetails.add(planetDetail);
   }
