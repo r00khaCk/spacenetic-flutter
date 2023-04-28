@@ -41,13 +41,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        // appBar: AppBar(
-        //   centerTitle: true,
-        //   title: Text("Home"),
-        //   backgroundColor: Colors.black87,
-        //   toolbarHeight: 60,
-        //   shadowColor: Colors.white12,
-        // ),
         body: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
