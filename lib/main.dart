@@ -49,7 +49,7 @@ class MainApp extends StatelessWidget {
               ),
               Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Container(
-                    margin: EdgeInsets.only(right: 10),
+                    margin: const EdgeInsets.only(right: 10),
                     width: 200,
                     height: 50,
                     padding: const EdgeInsets.only(left: 30),
