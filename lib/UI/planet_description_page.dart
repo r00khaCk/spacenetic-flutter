@@ -2,6 +2,7 @@ import 'package:spacenetic_flutter/Classes/planets_api_modal.dart';
 import 'package:spacenetic_flutter/Classes/planets_local_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:spacenetic_flutter/Functions/fetch_planetAPI.dart';
+import 'package:spacenetic_flutter/UI/widgets/frostedglass.dart';
 
 class PlanetDetailsPage extends StatefulWidget {
   //final PlanetDetails planetDetails;
@@ -38,10 +39,10 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
         ),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 15.0),
+                padding: const EdgeInsets.only(top: 60.0),
                 child: Row(
                   children: [
                     IconButton(
@@ -54,93 +55,157 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 300.0, // Provide a height for the SizedBox
-                child: Image.asset(
-                  widget.planetsLocalModal.imagePath ?? '',
-                  fit: BoxFit.cover,
+              Expanded(
+                child: Row(
+                  children: [
+                    Stack(
+                      children: [
+                        SizedBox(
+                          width: 391,
+                          height: 200,
+                          child: Row(
+                            children: [
+                              Hero(
+                                tag: widget.planetsLocalModal.imagePath
+                                    .toString(),
+                                child: SizedBox(
+                                  height:
+                                      200.0, // Provide a height for the SizedBox
+                                  child: Image.asset(
+                                    widget.planetsLocalModal.imagePath ?? '',
+                                    fit: BoxFit.cover,
+                                    width: 200,
+                                    height: 200,
+                                  ),
+                                ),
+                              ),
+                              // const Positioned(
+                              //   left: 100,
+                              //   child: FrostedGlassBox(
+                              //     theWidth: 100,
+                              //     theHeight: 100,
+                              //     theChild: Text(
+                              //       "Hello",
+                              //       style: TextStyle(color: Colors.white),
+                              //     ),
+                              //   ),
+                              // )
+                              FutureBuilder<List<PlanetsAPIModal>>(
+                                future: planetsAPIModal,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    // Text(
+                                    //     style: TextStyle(color: Colors.white),
+                                    //     snapshot.data!
+                                    //         .map((planet) => planet.temperature)
+                                    //         .toString());
+
+                                    List<PlanetsAPIModal> planets =
+                                        snapshot.data!;
+
+                                    List<num?> temperature = planets
+                                        .map((planet) => planet.temperature)
+                                        .toList();
+                                    List<num?> mass = planets
+                                        .map((planet) => planet.mass)
+                                        .toList();
+                                    List<num?> radius = planets
+                                        .map((planet) => planet.radius)
+                                        .toList();
+                                    List<num?> distanceLightYear = planets
+                                        .map((planet) =>
+                                            planet.distanceLightYear)
+                                        .toList();
+
+                                    String tempString = temperature.join('');
+                                    String massString = mass.join('');
+                                    String radString = radius.join('');
+                                    String distLightYearString =
+                                        distanceLightYear.join('');
+
+                                    return FrostedGlassBox(
+                                      theWidth: 170,
+                                      theHeight: 200,
+                                      theChild: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(
+                                            "Temperature: \n$tempString K",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16),
+                                          ),
+                                          Text(
+                                            "Mass: \n$massString Mj",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16),
+                                          ),
+                                          Text(
+                                            "Radius: \n$radString Rj",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16),
+                                          ),
+                                          Text(
+                                            "Distance: \n$distLightYearString Light Years",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    Text('${snapshot.error}');
+                                  }
+
+                                  // By default, show a loading spinner.
+
+                                  return const CircularProgressIndicator();
+                                },
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              Text(
-                widget.planetsLocalModal.name.toString(),
-                style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-              const SizedBox(height: 16.0),
-              Card(
-                color: Colors.white,
-                shadowColor: Colors.grey,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)),
-                margin: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    widget.planetsLocalModal.description.toString(),
-                    textAlign: TextAlign.center,
-                  ),
+              Expanded(
+                child: Column(
+                  children: [
+                    Text(
+                      widget.planetsLocalModal.name.toString(),
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                    const SizedBox(height: 16.0),
+                    Card(
+                      color: Colors.white,
+                      shadowColor: Colors.grey,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)),
+                      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          widget.planetsLocalModal.description.toString(),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Center(
-                child: FutureBuilder<List<PlanetsAPIModal>>(
-                  future: planetsAPIModal,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      // Text(
-                      //     style: TextStyle(color: Colors.white),
-                      //     snapshot.data!
-                      //         .map((planet) => planet.temperature)
-                      //         .toString());
-
-                      List<PlanetsAPIModal> planets = snapshot.data!;
-
-                      List<num?> temperature =
-                          planets.map((planet) => planet.temperature).toList();
-                      List<num?> mass =
-                          planets.map((planet) => planet.mass).toList();
-                      List<num?> radius =
-                          planets.map((planet) => planet.radius).toList();
-                      List<num?> distanceLightYear = planets
-                          .map((planet) => planet.distanceLightYear)
-                          .toList();
-
-                      String tempString = temperature.join('');
-                      String massString = mass.join('');
-                      String radString = radius.join('');
-                      String distLighYearString = distanceLightYear.join('');
-
-                      return Column(
-                        children: [
-                          Text(
-                            "Temperature: $tempString",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Text(
-                            "Mass: $massString",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Text(
-                            "Radius: $radString",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Text(
-                            "Distance from Earth: $distLighYearString light years",
-                            style: TextStyle(color: Colors.white),
-                          )
-                        ],
-                      );
-                    } else if (snapshot.hasError) {
-                      Text('${snapshot.error}');
-                    }
-
-                    // By default, show a loading spinner.
-
-                    return const CircularProgressIndicator();
-                  },
-                ),
-              )
             ],
           ),
         ),
