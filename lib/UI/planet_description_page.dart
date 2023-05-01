@@ -1,11 +1,29 @@
+import 'package:spacenetic_flutter/Classes/planets_api_modal.dart';
 import 'package:spacenetic_flutter/Classes/planets_local_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:spacenetic_flutter/Functions/fetch_planetAPI.dart';
 
-class PlanetDetailsPage extends StatelessWidget {
+class PlanetDetailsPage extends StatefulWidget {
   //final PlanetDetails planetDetails;
   final PlanetsLocalModal planetsLocalModal;
+  //late Future<PlanetsAPIModal> planetsAPIModal;
+  // final Future<List<PlanetsAPIModal>> planetsAPIModal;
   const PlanetDetailsPage({Key? key, required this.planetsLocalModal})
       : super(key: key);
+
+  @override
+  State<PlanetDetailsPage> createState() => _PlanetDetailsPageState();
+}
+
+class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
+  late Future<List<PlanetsAPIModal>> planetsAPIModal;
+  FetchPlanetAPI fetchPlanetAPI = FetchPlanetAPI();
+  @override
+  void initState() {
+    // TODO: implement initState
+    String? name = widget.planetsLocalModal.name;
+    planetsAPIModal = fetchPlanetAPI.getPlanetAPI(name!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +57,12 @@ class PlanetDetailsPage extends StatelessWidget {
               SizedBox(
                 height: 300.0, // Provide a height for the SizedBox
                 child: Image.asset(
-                  planetsLocalModal.imagePath ?? '',
+                  widget.planetsLocalModal.imagePath ?? '',
                   fit: BoxFit.cover,
                 ),
               ),
               Text(
-                planetsLocalModal.name.toString(),
+                widget.planetsLocalModal.name.toString(),
                 style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -60,11 +78,69 @@ class PlanetDetailsPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    planetsLocalModal.description.toString(),
+                    widget.planetsLocalModal.description.toString(),
                     textAlign: TextAlign.center,
                   ),
                 ),
               ),
+              Center(
+                child: FutureBuilder<List<PlanetsAPIModal>>(
+                  future: planetsAPIModal,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      // Text(
+                      //     style: TextStyle(color: Colors.white),
+                      //     snapshot.data!
+                      //         .map((planet) => planet.temperature)
+                      //         .toString());
+
+                      List<PlanetsAPIModal> planets = snapshot.data!;
+
+                      List<num?> temperature =
+                          planets.map((planet) => planet.temperature).toList();
+                      List<num?> mass =
+                          planets.map((planet) => planet.mass).toList();
+                      List<num?> radius =
+                          planets.map((planet) => planet.radius).toList();
+                      List<num?> distanceLightYear = planets
+                          .map((planet) => planet.distanceLightYear)
+                          .toList();
+
+                      String tempString = temperature.join('');
+                      String massString = mass.join('');
+                      String radString = radius.join('');
+                      String distLighYearString = distanceLightYear.join('');
+
+                      return Column(
+                        children: [
+                          Text(
+                            "Temperature: $tempString",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            "Mass: $massString",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            "Radius: $radString",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            "Distance from Earth: $distLighYearString light years",
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
+                      );
+                    } else if (snapshot.hasError) {
+                      Text('${snapshot.error}');
+                    }
+
+                    // By default, show a loading spinner.
+
+                    return const CircularProgressIndicator();
+                  },
+                ),
+              )
             ],
           ),
         ),
