@@ -1,8 +1,8 @@
 class PlanetsAPIModal {
-  final double? mass;
-  final double? radius;
-  final int? temperature;
-  final double? distanceLightYear;
+  final num? mass;
+  final num? radius;
+  final num? temperature;
+  final num? distanceLightYear;
 
   PlanetsAPIModal(
       {this.mass, this.radius, this.temperature, this.distanceLightYear});
@@ -15,3 +15,21 @@ class PlanetsAPIModal {
         distanceLightYear: json['distance_light_year']);
   }
 }
+
+// class PlanetsList {
+//   final List<PlanetsAPIModal> planets;
+
+//   PlanetsList({required this.planets});
+//   // List<Photo> photos = new List<Photo>();
+//   //   photos = parsedJson.map((i)=>Photo.fromJson(i)).toList();
+
+//   //   return new PhotosList(
+//   //     photos: photos
+//   //   );
+//   factory PlanetsList.fromJsonToList(List<dynamic> parsedJson) {
+//     List<PlanetsAPIModal> planets = <PlanetsAPIModal>[];
+//     planets = parsedJson.map((e) => PlanetsAPIModal.fromJson(e)).toList();
+
+//     return PlanetsList(planets: planets);
+//   }
+// }
