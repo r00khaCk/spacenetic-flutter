@@ -51,6 +51,7 @@ class _HomePageState extends State<HomePage> {
           image: DecorationImage(
             image: AssetImage("assets/images/main-bg.png"),
             fit: BoxFit.cover,
+            scale: 2.0,
           ),
         ),
         child: Column(
@@ -142,9 +143,17 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ));
               },
-              child: Image.asset(
-                planetImage,
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: planetImage,
+                child: SizedBox(
+                  height: 300,
+                  child: Image.asset(
+                    planetImage,
+                    fit: BoxFit.cover,
+                    width: 250,
+                    height: 250,
+                  ),
+                ),
               ),
             ),
           ),
