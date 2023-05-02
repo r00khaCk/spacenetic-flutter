@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:spacenetic_flutter/Classes/planets_api_modal.dart';
 import 'package:spacenetic_flutter/Classes/planets_local_modal.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:spacenetic_flutter/UI/planet_description_page.dart';
+import 'package:spacenetic_flutter/Functions/fetch_planetAPI.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +17,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<PlanetsLocalModal> planetObject = [];
+  // late Future<List<PlanetsAPIModal>> planetApiModal;
+  List<PlanetsAPIModal> planetAPI = [];
+
   Future<String> loadAsset() async {
     return await rootBundle.loadString('assets/planet_details.json');
   }
@@ -46,6 +51,7 @@ class _HomePageState extends State<HomePage> {
           image: DecorationImage(
             image: AssetImage("assets/images/main-bg.png"),
             fit: BoxFit.cover,
+            scale: 2.0,
           ),
         ),
         child: Column(
@@ -132,13 +138,22 @@ class _HomePageState extends State<HomePage> {
             child: InkWell(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      PlanetDetailsPage(planetsLocalModal: planetObject[index]),
+                  builder: (context) => PlanetDetailsPage(
+                    planetsLocalModal: planetObject[index],
+                  ),
                 ));
               },
-              child: Image.asset(
-                planetImage,
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: planetImage,
+                child: SizedBox(
+                  height: 300,
+                  child: Image.asset(
+                    planetImage,
+                    fit: BoxFit.cover,
+                    width: 250,
+                    height: 250,
+                  ),
+                ),
               ),
             ),
           ),
