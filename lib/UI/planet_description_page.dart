@@ -133,28 +133,28 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
                                           Text(
                                             "Temperature: \n$tempString K",
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 16),
                                           ),
                                           Text(
                                             "Mass: \n$massString Mj",
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 16),
                                           ),
                                           Text(
                                             "Radius: \n$radString Rj",
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 16),
                                           ),
                                           Text(
                                             "Distance: \n$distLightYearString Light Years",
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 16),
                                           )
