@@ -18,7 +18,7 @@ dependencies:
   flutter_bloc: ^8.1.2
   flutter_signin_button: ^2.0.0
   google_fonts: ^4.0.4
-  google_sign_in: ^5.2.1
+  google_sign_in: ^5.4.4
   http: ^0.13.5
   lottie: ^2.3.2
   flutterfire_ui: ^0.4.3+20
