@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spacenetic_flutter/UI/widgets/timeline.dart';
+import 'package:spacenetic_flutter/UI/timeline_page.dart';
 
 import 'UI/homepage.dart';
 
