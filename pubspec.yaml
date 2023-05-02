@@ -13,8 +13,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.2
+  flutter_svg: ^2.0.5
   http: ^0.13.5
   lottie: ^2.3.2
+  timeline_list: ^0.0.6
 
 dev_dependencies:
   flutter_test:
@@ -26,3 +28,4 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/images/timeline_assets/
