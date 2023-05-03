@@ -4,14 +4,14 @@ import 'package:timeline_list/timeline_model.dart';
 import '../Classes/timeline/space_event.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 
-class TimelineWidget extends StatefulWidget {
-  const TimelineWidget({super.key});
+class TimelinePage extends StatefulWidget {
+  const TimelinePage({super.key});
 
   @override
-  State<TimelineWidget> createState() => _TimelineWidgetState();
+  State<TimelinePage> createState() => _TimelinePageState();
 }
 
-class _TimelineWidgetState extends State<TimelineWidget> {
+class _TimelinePageState extends State<TimelinePage> {
   final PageController pageController =
       PageController(initialPage: 1, keepPage: true);
   int pageIx = 1;
