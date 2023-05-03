@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spacenetic_flutter/UI/login_page.dart';
 import 'package:spacenetic_flutter/UI/signup_page.dart';
 import 'package:spacenetic_flutter/firebase_options.dart';
+import 'package:spacenetic_flutter/UI/timeline_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,5 +21,8 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
         // home: SignUpPage(),
         home: LoginPage());
+      //home: HomePage(),
+      //home: TimelineWidget(),
+    );
   }
 }

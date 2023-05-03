@@ -23,6 +23,8 @@ dependencies:
   lottie: ^2.3.2
   flutterfire_ui: ^0.4.3+20
   cloud_firestore: ^4.5.3
+  flutter_svg: ^2.0.5
+  timeline_list: ^0.0.6
 
 dev_dependencies:
   flutter_test:
@@ -34,3 +36,4 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/images/timeline_assets/
