@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:spacenetic_flutter/Classes/planets_api_modal.dart';
 import 'package:spacenetic_flutter/Classes/planets_local_modal.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:spacenetic_flutter/StateManagement/api_cubit/cubit/planet_api_cubit.dart';
 import 'package:spacenetic_flutter/UI/planet_description_page.dart';
 import 'package:spacenetic_flutter/Functions/fetch_planetAPI.dart';
 import 'package:spacenetic_flutter/UI/timeline_page.dart';
 import 'package:spacenetic_flutter/UI/widgets/frostedglass.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -49,10 +51,16 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Widget _createHeader() {
       return const DrawerHeader(
-        decoration: BoxDecoration(color: Color.fromARGB(255, 13, 28, 121)),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 13, 28, 121),
+        ),
         child: Center(
-            child: FrostedGlassBox(
-                theHeight: 140, theWidth: 250, theChild: Text("User"))),
+          child: FrostedGlassBox(
+            theHeight: 140,
+            theWidth: 250,
+            theChild: Text("User"),
+          ),
+        ),
       );
     }
 
@@ -86,17 +94,18 @@ class _HomePageState extends State<HomePage> {
                   // ),
                   const Spacer(),
                   Container(
-                      width: 150,
-                      height: 80,
-                      padding:
-                          const EdgeInsets.only(left: 20, top: 20, bottom: 5),
-                      child: const Text(
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1),
-                          "Hi User,")),
+                    width: 150,
+                    height: 80,
+                    padding:
+                        const EdgeInsets.only(left: 20, top: 20, bottom: 5),
+                    child: const Text(
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1),
+                        "Hi User,"),
+                  ),
                 ],
               ),
             ),
@@ -104,18 +113,19 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(left: 70.0),
               child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 Container(
-                    //margin: EdgeInsets.only(right: 10),
-                    width: 320,
-                    height: 30,
-                    padding: const EdgeInsets.only(
-                      left: 75,
-                    ),
-                    child: Text(
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.white,
-                        ),
-                        "Let's Explore Our Solar System!")),
+                  //margin: EdgeInsets.only(right: 10),
+                  width: 320,
+                  height: 30,
+                  padding: const EdgeInsets.only(
+                    left: 75,
+                  ),
+                  child: const Text(
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.white,
+                      ),
+                      "Let's Explore Our Solar System!"),
+                ),
               ]),
             ),
             planetObject.isEmpty
@@ -148,8 +158,11 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: const Text("Timeline"),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const TimelinePage()));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const TimelinePage(),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -183,18 +196,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildImage(String planetImage, String planetName, int index) => Column(
-        //mainAxisAlignment: MainAxisAlignment.center,
-        //margin: EdgeInsets.symmetric(horizontal: 5),
-        // color: Colors.grey,
         children: [
           Expanded(
             child: InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PlanetDetailsPage(
-                    planetsLocalModal: planetObject[index],
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => DisplayPlanetDetails(
+                      planetsLocalModal1: planetObject[index],
+                    ),
                   ),
-                ));
+                );
               },
               child: Hero(
                 tag: planetImage,
