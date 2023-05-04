@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:spacenetic_flutter/Classes/planets_api_modal.dart';
 import 'package:spacenetic_flutter/Classes/planets_local_modal.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -97,37 +98,49 @@ class _HomePageState extends State<HomePage> {
                   // ),
                   const Spacer(),
                   Container(
-                    width: 150,
-                    height: 100,
+                    width: 200,
+                    height: 150,
                     padding:
-                        const EdgeInsets.only(left: 60, top: 70, bottom: 5),
-                    child: const Text(
-                        style: TextStyle(
-                            fontSize: 30,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1),
-                        "Hi User,"),
+                        const EdgeInsets.only(left: 60, top: 100, bottom: 5),
+                    child: Text(
+                      // style: TextStyle(
+                      //     fontSize: 30,
+                      //     color: Colors.white,
+                      //     fontWeight: FontWeight.bold,
+                      //     letterSpacing: 1),
+
+                      "Hi User,",
+                      style: GoogleFonts.orbitron(
+                          fontSize: 30,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1),
+                    ),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 30.0, top: 20),
-              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              padding: const EdgeInsets.only(right: 30.0, left: 20),
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Container(
                   //margin: EdgeInsets.only(right: 10),
-                  width: 310,
-                  height: 40,
+                  width: 330,
+                  height: 50,
                   padding: const EdgeInsets.only(
-                    left: 55,
+                    right: 40,
                   ),
-                  child: const Text(
-                      style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.white,
-                      ),
-                      "Let's Explore Our Solar System!"),
+                  child: Text(
+                    // style: TextStyle(
+                    //   fontSize: 20,
+                    //   color: Colors.white,
+                    // ),
+                    "Let's Explore Our Solar System!",
+                    style: GoogleFonts.orbitron(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ]),
             ),
@@ -159,7 +172,13 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             _createHeader(),
             ListTile(
-              title: const Text("Timeline"),
+              title: Text(
+                "Timeline",
+                style: GoogleFonts.orbitron(
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -169,7 +188,14 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              title: const Text("Favourite Planets"),
+              title: Text(
+                "Favourite Planets",
+                style: GoogleFonts.orbitron(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               onTap: () {
                 // Navigator.of(context).push(MaterialPageRoute(
                 //     builder: (context) => const TimelinePage()));
@@ -177,14 +203,21 @@ class _HomePageState extends State<HomePage> {
             ),
             const Expanded(
               child: SizedBox(
-                height: 410,
+                height: 280,
               ),
             ),
             Column(
               children: [
                 ListTile(
                   leading: Icon(Icons.logout_sharp),
-                  title: const Text("Logout"),
+                  title: Text(
+                    "Logout",
+                    style: GoogleFonts.orbitron(
+                      fontSize: 15,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   onTap: () {
                     // Navigator.of(context).push(MaterialPageRoute(
                     //     builder: (context) => const TimelinePage()));
@@ -226,10 +259,14 @@ class _HomePageState extends State<HomePage> {
                           theHeight: 250,
                           theChild: Text(
                             planetName,
-                            style: const TextStyle(
-                              fontSize: 40,
-                              color: Colors.white,
-                            ),
+                            // style: const TextStyle(
+                            //   fontSize: 40,
+                            //   color: Colors.white,
+                            // ),
+                            style: GoogleFonts.orbitron(
+                                fontSize: 40,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                         )
                       ],
