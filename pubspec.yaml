@@ -24,6 +24,7 @@ dependencies:
   flutterfire_ui: ^0.4.3+20
   cloud_firestore: ^4.5.3
   timeline_list: ^0.0.6
+  google_nav_bar: ^5.0.6
 
 dev_dependencies:
   flutter_test:
