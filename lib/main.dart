@@ -25,12 +25,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        // home: SignUpPage(),
-        //home: LoginPage());
-        //home: HomePage());
-        // home: DisplayNews(),
-        // home: MyHomeSwipeView(),
-        );
+      // home: SignUpPage(),
+      //home: LoginPage());
+      //home: HomePage());
+      // home: DisplayNews(),
+      home: MyHomeSwipeView(),
+    );
     //home: TimelineWidget(),
   }
 }
