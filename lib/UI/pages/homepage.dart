@@ -6,9 +6,9 @@ import 'package:spacenetic_flutter/Classes/planets_api_modal.dart';
 import 'package:spacenetic_flutter/Classes/planets_local_modal.dart';
 import 'package:flutter/services.dart' show rootBundle;
 // import 'package:spacenetic_flutter/StateManagement/api_cubit/SpaceApi_cubit/planet_api_cubit.dart';
-import 'package:spacenetic_flutter/UI/planet_description_page.dart';
+import 'package:spacenetic_flutter/UI/pages/planet_description_page.dart';
 // import 'package:spacenetic_flutter/Functions/fetch_planetAPI.dart';
-import 'package:spacenetic_flutter/UI/timeline_page.dart';
+import 'package:spacenetic_flutter/UI/pages/timeline_page.dart';
 import 'package:spacenetic_flutter/UI/widgets/frostedglass.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 
