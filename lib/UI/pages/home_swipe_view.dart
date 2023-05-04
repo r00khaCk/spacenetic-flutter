@@ -32,7 +32,7 @@ class _MyHomeSwipeViewState extends State<MyHomeSwipeView> {
             create: (_) => NewsApiCubit(
               FetchNewsAPI(),
             ),
-            child: SpaceNews(),
+            child: DisplayNews(),
           ),
         ],
       ),

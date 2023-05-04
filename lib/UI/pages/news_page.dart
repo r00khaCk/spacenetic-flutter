@@ -3,10 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:spacenetic_flutter/Classes/news_modal.dart';
 import 'package:spacenetic_flutter/Functions/fetch_newsAPI.dart';
 import 'package:spacenetic_flutter/StateManagement/api_cubit/NewsAPi_cubit/news_api_cubit.dart';
 import 'package:spacenetic_flutter/UI/widgets/frostedglass.dart';
+
+class DisplayNews extends StatelessWidget {
+  const DisplayNews({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => NewsApiCubit(
+        FetchNewsAPI(),
+      ),
+      child: SpaceNews(),
+    );
+  }
+}
 
 class SpaceNews extends StatefulWidget {
   const SpaceNews({super.key});
@@ -35,9 +50,19 @@ class _SpaceNewsState extends State<SpaceNews> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: Center(child: Text("News")),
+        title: Center(
+          child: Text(
+            "News",
+            style: GoogleFonts.orbitron(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
       body: Container(
+        padding: const EdgeInsets.only(top: 20),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: const AssetImage("assets/images/main-bg.png"),

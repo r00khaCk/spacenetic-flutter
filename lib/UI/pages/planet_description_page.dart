@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:spacenetic_flutter/Classes/planets_api_modal.dart';
 import 'package:spacenetic_flutter/Classes/planets_local_modal.dart';
 import 'package:spacenetic_flutter/Functions/fetch_planetAPI.dart';
@@ -53,7 +54,24 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        title: Center(
+          child: Text(
+            "Planet Info",
+            style: GoogleFonts.orbitron(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
       body: Container(
+        padding: EdgeInsets.only(top: 50),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: const AssetImage("assets/images/main-bg.png"),
@@ -66,20 +84,20 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 60.0),
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: const Icon(Icons.arrow_back_ios_new),
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 60.0),
+              //   child: Row(
+              //     children: [
+              //       IconButton(
+              //         onPressed: () {
+              //           Navigator.of(context).pop();
+              //         },
+              //         icon: const Icon(Icons.arrow_back_ios_new),
+              //         color: Colors.white,
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Expanded(
                 child: SizedBox(
                   width: 400,
