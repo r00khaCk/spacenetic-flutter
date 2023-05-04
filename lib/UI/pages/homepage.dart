@@ -65,8 +65,11 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 13, 28, 121),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -95,9 +98,9 @@ class _HomePageState extends State<HomePage> {
                   const Spacer(),
                   Container(
                     width: 150,
-                    height: 80,
+                    height: 100,
                     padding:
-                        const EdgeInsets.only(left: 20, top: 20, bottom: 5),
+                        const EdgeInsets.only(left: 60, top: 70, bottom: 5),
                     child: const Text(
                         style: TextStyle(
                             fontSize: 30,
@@ -110,14 +113,14 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 70.0),
+              padding: const EdgeInsets.only(left: 30.0, top: 20),
               child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 Container(
                   //margin: EdgeInsets.only(right: 10),
-                  width: 320,
-                  height: 30,
+                  width: 310,
+                  height: 40,
                   padding: const EdgeInsets.only(
-                    left: 75,
+                    left: 55,
                   ),
                   child: const Text(
                       style: TextStyle(
@@ -134,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                     child: Center(
                       child: CarouselSlider.builder(
                         options: CarouselOptions(
-                            height: 600,
+                            height: 400,
                             enlargeCenterPage: true,
                             enlargeFactor: 0.5),
                         itemCount: planetObject.length,
@@ -216,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         SizedBox(
                           width: 300,
-                          height: 200,
+                          height: 100,
                         ),
                         FrostedGlassBox(
                           theWidth: 250,
@@ -234,7 +237,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Positioned(
                     left: 100,
-                    top: 100,
+                    top: 10,
                     child: Image.asset(
                       planetImage,
                       fit: BoxFit.cover,
@@ -246,6 +249,26 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
+          //     child: Hero(
+          //       tag: planetImage,
+          //       child: Text(
+          //             planetName,
+          //             style: const TextStyle(
+          //               fontSize: 40,
+          //               color: Colors.white,
+          //             ),
+          //           ),
+          //         ),
+          //         Image.asset(
+          //           planetImage,
+          //           fit: BoxFit.cover,
+          //           width: 200,
+          //           height: 200,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           // Text(
           //   planetName,
           //   style: const TextStyle(
