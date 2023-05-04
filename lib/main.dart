@@ -1,15 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:spacenetic_flutter/UI/pages/home_swipe_view.dart';
-// import 'package:spacenetic_flutter/Functions/fetch_planetAPI.dart';
-// import 'package:spacenetic_flutter/StateManagement/api_cubit/cubit/planet_api_cubit.dart';
 import 'package:spacenetic_flutter/UI/pages/homepage.dart';
-import 'package:spacenetic_flutter/UI/pages/login_page.dart';
-import 'package:spacenetic_flutter/UI/pages/news_page.dart';
+import 'package:spacenetic_flutter/UI/pages/signin_page.dart';
 import 'package:spacenetic_flutter/UI/pages/signup_page.dart';
-import 'package:spacenetic_flutter/firebase_options.dart';
+import 'package:spacenetic_flutter/UI/pages/splashscreen.dart';
 import 'package:spacenetic_flutter/UI/pages/timeline_page.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spacenetic_flutter/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,13 +21,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      // home: SignUpPage(),
-      //home: LoginPage());
-      //home: HomePage());
-      // home: DisplayNews(),
-      home: MyHomeSwipeView(),
+    return MaterialApp(
+      home: const MyHomeSwipeView(),
+      routes: {
+        '/main': (context) => const SplashscreenPage(),
+        '/home': (context) => const HomePage(),
+        '/signin': (context) => const SignInPage(),
+        'signup': (context) => const SignUpPage(),
+        '/timeline': (context) => const TimelinePage(),
+      },
     );
-    //home: TimelineWidget(),
   }
 }

@@ -1,17 +1,17 @@
 import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:spacenetic_flutter/Classes/planets_api_modal.dart';
 import 'package:spacenetic_flutter/Classes/planets_local_modal.dart';
-import 'package:flutter/services.dart' show rootBundle;
-// import 'package:spacenetic_flutter/StateManagement/api_cubit/SpaceApi_cubit/planet_api_cubit.dart';
+import 'package:spacenetic_flutter/Functions/fetch_potdAPI.dart';
 import 'package:spacenetic_flutter/UI/pages/planet_description_page.dart';
-// import 'package:spacenetic_flutter/Functions/fetch_planetAPI.dart';
-import 'package:spacenetic_flutter/UI/pages/timeline_page.dart';
 import 'package:spacenetic_flutter/UI/widgets/frostedglass.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spacenetic_flutter/Services/firebase_auth_methods.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -32,8 +32,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     fetchPlanetsInfo();
-
     super.initState();
+  }
+
+  void signOutUser() async {
+    FirebaseAuthMethods(FirebaseAuth.instance).signOutUser(context);
   }
 
   Future<void> fetchPlanetsInfo() async {
@@ -48,21 +51,68 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<String> fetchAPOD() async {
+    final api = FetchPotdAPI();
+    final response = await http.get(
+        Uri.parse(
+            'https://api.nasa.gov/planetary/apod?api_key=${api.nasaAPIKey}'),
+        headers: {'X-API-key': api.nasaAPIKey});
+    final jsonData = jsonDecode(response.body);
+    final apodUrl = jsonData['url'] as String?;
+    if (apodUrl != null) {
+      return apodUrl;
+    } else {
+      throw Exception('Failed to load APOD url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget _createHeader() {
-      return const DrawerHeader(
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 13, 28, 121),
-        ),
-        child: Center(
-          child: FrostedGlassBox(
-            theHeight: 140,
-            theWidth: 250,
-            theChild: Text("User"),
-          ),
-        ),
-      );
+      return FutureBuilder<String>(
+          future: fetchAPOD(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                return DrawerHeader(
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 13, 28, 121),
+                  ),
+                  child: Center(
+                    child: FrostedGlassBox(
+                      theHeight: 140,
+                      theWidth: 250,
+                      theChild: Image.network(
+                        snapshot.data!,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return DrawerHeader(
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 13, 28, 121),
+                  ),
+                  child: Center(
+                    child: FrostedGlassBox(
+                      theHeight: 140,
+                      theWidth: 250,
+                      theChild: Text('Error: ${snapshot.error}'),
+                    ),
+                  ),
+                );
+              }
+            }
+            return const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 13, 28, 121),
+              ),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          });
     }
 
     return Scaffold(
@@ -86,35 +136,43 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10),
               child: Row(
                 children: [
-                  // const Padding(
-                  //   padding: EdgeInsets.only(right: 20, top: 0),
-                  //   child: SizedBox(
-                  //       height: 35,
-                  //       child: Icon(
-                  //         Icons.menu,
-                  //         size: 35,
-                  //         color: Colors.white,
-                  //       )),
-                  // ),
                   const Spacer(),
                   Container(
-                    width: 200,
-                    height: 150,
+                    width: 150,
+                    height: 80,
                     padding:
-                        const EdgeInsets.only(left: 60, top: 100, bottom: 5),
-                    child: Text(
-                      // style: TextStyle(
-                      //     fontSize: 30,
-                      //     color: Colors.white,
-                      //     fontWeight: FontWeight.bold,
-                      //     letterSpacing: 1),
-
-                      "Hi User,",
-                      style: GoogleFonts.orbitron(
-                          fontSize: 30,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1),
+                        const EdgeInsets.only(left: 20, top: 20, bottom: 5),
+                    child: StreamBuilder<DocumentSnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Text(
+                            'Hi User,',
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1,
+                            ),
+                          );
+                        }
+                        final data =
+                            snapshot.data!.data() as Map<String, dynamic>;
+                        final username = data['username'] ?? 'User';
+                        return Text(
+                          'Hi $username,', // add this line
+                          style: const TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -180,27 +238,24 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.bold),
               ),
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const TimelinePage(),
-                  ),
-                );
+                Navigator.pushNamed(context, '/timeline');
               },
             ),
-            ListTile(
-              title: Text(
-                "Favourite Planets",
-                style: GoogleFonts.orbitron(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (context) => const TimelinePage()));
-              },
-            ),
+            // Not implemented
+            // ListTile(
+            //   title: Text(
+            //     "Favourite Planets",
+            //     style: GoogleFonts.orbitron(
+            //       fontSize: 15,
+            //       color: Colors.black,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            //   onTap: () {
+            //     // Navigator.of(context).push(MaterialPageRoute(
+            //     //     builder: (context) => const TimelinePage()));
+            //   },
+            // ),
             const Expanded(
               child: SizedBox(
                 height: 280,
@@ -209,7 +264,7 @@ class _HomePageState extends State<HomePage> {
             Column(
               children: [
                 ListTile(
-                  leading: Icon(Icons.logout_sharp),
+                  leading: const Icon(Icons.logout_sharp),
                   title: Text(
                     "Logout",
                     style: GoogleFonts.orbitron(
@@ -219,8 +274,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   onTap: () {
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //     builder: (context) => const TimelinePage()));
+                    signOutUser();
                   },
                 ),
               ],
@@ -250,7 +304,7 @@ class _HomePageState extends State<HomePage> {
                   SingleChildScrollView(
                     child: Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 300,
                           height: 100,
                         ),
@@ -259,10 +313,6 @@ class _HomePageState extends State<HomePage> {
                           theHeight: 250,
                           theChild: Text(
                             planetName,
-                            // style: const TextStyle(
-                            //   fontSize: 40,
-                            //   color: Colors.white,
-                            // ),
                             style: GoogleFonts.orbitron(
                                 fontSize: 40,
                                 color: Colors.white,
@@ -286,33 +336,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          //     child: Hero(
-          //       tag: planetImage,
-          //       child: Text(
-          //             planetName,
-          //             style: const TextStyle(
-          //               fontSize: 40,
-          //               color: Colors.white,
-          //             ),
-          //           ),
-          //         ),
-          //         Image.asset(
-          //           planetImage,
-          //           fit: BoxFit.cover,
-          //           width: 200,
-          //           height: 200,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          // Text(
-          //   planetName,
-          //   style: const TextStyle(
-          //     fontSize: 30,
-          //     color: Colors.white,
-          //   ),
-          // )
         ],
       );
 }

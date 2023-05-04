@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:spacenetic_flutter/UI/pages/homepage.dart';
 
 class FirebaseAuthMethods {
   final FirebaseAuth _auth;
@@ -20,21 +19,6 @@ class FirebaseAuthMethods {
     required String password,
     required BuildContext context,
   }) async {
-    //Store username in Firestore
-    // try {
-    //   final user = _auth.currentUser;
-    //   final userRef =
-    //       FirebaseFirestore.instance.collection('users').doc(user!.uid);
-    //   await userRef.set({'username': username});
-    // } catch (e) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(
-    //       content: Text('Error storing username: $e'),
-    //     ),
-    //   );
-    //   return;
-    // }
-
     //Store username in Firestore
     try {
       final UserCredential userCredential =
