@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:spacenetic_flutter/Classes/timeline/space_event.dart';
 import 'package:timeline_list/timeline.dart';
 import 'package:timeline_list/timeline_model.dart';
-import '../Classes/timeline/space_event.dart';
+// import '../Classes/timeline/space_event.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 
 class TimelinePage extends StatefulWidget {
