@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spacenetic_flutter/Classes/planets_api_modal.dart';
 import 'package:spacenetic_flutter/Classes/planets_local_modal.dart';
 import 'package:spacenetic_flutter/Functions/fetch_planetAPI.dart';
-import 'package:spacenetic_flutter/StateManagement/api_cubit/cubit/planet_api_cubit.dart';
+import 'package:spacenetic_flutter/StateManagement/api_cubit/SpaceApi_cubit/planet_api_cubit.dart';
+import 'package:spacenetic_flutter/StateManagement/api_cubit/SpaceApi_cubit/planet_api_cubit.dart';
 import 'package:spacenetic_flutter/UI/widgets/frostedglass.dart';
 
 class DisplayPlanetDetails extends StatelessWidget {
@@ -36,8 +37,8 @@ class PlanetDetailsPage extends StatefulWidget {
 }
 
 class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
-  late Future<List<PlanetsAPIModal>> planetsAPIModal;
-  FetchPlanetAPI fetchPlanetAPI = FetchPlanetAPI();
+  //late Future<List<PlanetsAPIModal>> planetsAPIModal;
+  //FetchPlanetAPI fetchPlanetAPI = FetchPlanetAPI();
   @override
   void initState() {
     super.initState();

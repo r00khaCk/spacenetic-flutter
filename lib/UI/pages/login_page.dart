@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:spacenetic_flutter/Functions/fetch_potdAPI.dart';
 import 'package:spacenetic_flutter/Services/firebase_auth_methods.dart';
-import 'package:spacenetic_flutter/UI/homepage.dart';
+// import 'package:spacenetic_flutter/UI/pages/homepage.dart';
 
 // void main() => runApp(
 //       MaterialApp(
