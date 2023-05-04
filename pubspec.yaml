@@ -34,5 +34,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/animations/
     - assets/images/
     - assets/images/timeline_assets/
