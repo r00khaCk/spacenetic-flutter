@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spacenetic_flutter/Classes/news_modal.dart';
 import 'package:spacenetic_flutter/Functions/fetch_newsAPI.dart';
-import 'package:spacenetic_flutter/StateManagement/api_cubit/cubit/news_api_cubit.dart';
+import 'package:spacenetic_flutter/StateManagement/api_cubit/NewsAPi_cubit/news_api_cubit.dart';
 import 'package:spacenetic_flutter/UI/widgets/frostedglass.dart';
 
 class SpaceNews extends StatefulWidget {
