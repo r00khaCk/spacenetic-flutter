@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class SplashscreenPage extends StatelessWidget {
@@ -39,24 +40,20 @@ class SplashscreenPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            const Text(
-              'Discover the solar system with us',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontFamily: 'Montserrat',
-              ),
+            const SizedBox(height: 30.0),
+            Text(
+              'SPACENETIC',
+              style: GoogleFonts.orbitron(fontSize: 40.0, color: Colors.white),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 30.0),
+            Text(
+              'Discover the solar system with us',
+              style: GoogleFonts.abel(fontSize: 20.0, color: Colors.white),
+            ),
+            const SizedBox(height: 8.0),
             Text(
               'Explore the wonders of the universe',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white.withOpacity(0.8),
-                fontFamily: 'Montserrat',
-              ),
+              style: GoogleFonts.abel(fontSize: 16.0, color: Colors.white),
             ),
           ],
         ),
