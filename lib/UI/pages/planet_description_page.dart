@@ -81,201 +81,187 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
                 ),
               ),
               Expanded(
-                child: Row(
-                  children: [
-                    Stack(
-                      children: [
-                        SizedBox(
-                          width: 391,
-                          height: 200,
-                          child: Row(
-                            children: [
-                              Hero(
-                                tag: widget.planetsLocalModal.imagePath
-                                    .toString(),
-                                child: SizedBox(
-                                  height:
-                                      200.0, // Provide a height for the SizedBox
-                                  child: Image.asset(
-                                    widget.planetsLocalModal.imagePath ?? '',
-                                    fit: BoxFit.cover,
-                                    width: 200,
-                                    height: 200,
-                                  ),
-                                ),
-                              ),
-
-                              BlocBuilder<PlanetApiCubit, PlanetApiState>(
-                                  builder: (context, state) {
-                                //BlocProvider.of<PlanetApiCubit>(context);
-                                if (state is PlanetApiInitial ||
-                                    state is LoadingPlanetState) {
-                                  return const FrostedGlassBox(
-                                    theWidth: 170,
-                                    theHeight: 200,
-                                    theChild: CircularProgressIndicator(),
-                                  );
-                                } else if (state is ResponsePlanetState) {
-                                  List<PlanetsAPIModal> planets =
-                                      state.planetInfo;
-                                  List<num?> temperature = planets
-                                      .map((planet) => planet.temperature)
-                                      .toList();
-                                  List<num?> mass = planets
-                                      .map((planet) => planet.mass)
-                                      .toList();
-                                  List<num?> radius = planets
-                                      .map((planet) => planet.radius)
-                                      .toList();
-                                  List<num?> distanceLightYear = planets
-                                      .map((planet) => planet.distanceLightYear)
-                                      .toList();
-
-                                  String tempString = temperature.join('');
-                                  String massString = mass.join('');
-                                  String radString = radius.join('');
-                                  String distLightYearString =
-                                      distanceLightYear.join('');
-                                  return FrostedGlassBox(
-                                    theWidth: 170,
-                                    theHeight: 200,
-                                    theChild: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Text(
-                                          "Temperature: \n$tempString K",
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                        Text(
-                                          "Mass: \n$massString Mj",
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                        Text(
-                                          "Radius: \n$radString Rj",
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                        Text(
-                                          "Distance: \n$distLightYearString Light Years",
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                } else if (state is ErrorPlanetState) {
-                                  return FrostedGlassBox(
-                                    theWidth: 170,
-                                    theHeight: 200,
-                                    theChild: Text(state.errorMessage),
-                                  );
-                                }
-                                return FrostedGlassBox(
-                                  theWidth: 170,
-                                  theHeight: 200,
-                                  theChild: Text(
-                                    state.toString(),
-                                  ),
-                                );
-                              })
-
-                              // FutureBuilder<List<PlanetsAPIModal>>(
-                              //   future: planetsAPIModal,
-                              //   builder: (context, snapshot) {
-                              //     if (snapshot.hasData) {
-                              //       // Text(
-                              //       //     style: TextStyle(color: Colors.white),
-                              //       //     snapshot.data!
-                              //       //         .map((planet) => planet.temperature)
-                              //       //         .toString());
-
-                              //       List<PlanetsAPIModal> planets =
-                              //           snapshot.data!;
-
-                              //       List<num?> temperature = planets
-                              //           .map((planet) => planet.temperature)
-                              //           .toList();
-                              //       List<num?> mass = planets
-                              //           .map((planet) => planet.mass)
-                              //           .toList();
-                              //       List<num?> radius = planets
-                              //           .map((planet) => planet.radius)
-                              //           .toList();
-                              //       List<num?> distanceLightYear = planets
-                              //           .map((planet) =>
-                              //               planet.distanceLightYear)
-                              //           .toList();
-
-                              //       String tempString = temperature.join('');
-                              //       String massString = mass.join('');
-                              //       String radString = radius.join('');
-                              //       String distLightYearString =
-                              //           distanceLightYear.join('');
-
-                              //       return FrostedGlassBox(
-                              //         theWidth: 170,
-                              //         theHeight: 200,
-                              //         theChild: Column(
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.spaceEvenly,
-                              //           children: [
-                              //             Text(
-                              //               "Temperature: \n$tempString K",
-                              //               textAlign: TextAlign.center,
-                              //               style: const TextStyle(
-                              //                   color: Colors.white,
-                              //                   fontSize: 16),
-                              //             ),
-                              //             Text(
-                              //               "Mass: \n$massString Mj",
-                              //               textAlign: TextAlign.center,
-                              //               style: const TextStyle(
-                              //                   color: Colors.white,
-                              //                   fontSize: 16),
-                              //             ),
-                              //             Text(
-                              //               "Radius: \n$radString Rj",
-                              //               textAlign: TextAlign.center,
-                              //               style: const TextStyle(
-                              //                   color: Colors.white,
-                              //                   fontSize: 16),
-                              //             ),
-                              //             Text(
-                              //               "Distance: \n$distLightYearString Light Years",
-                              //               textAlign: TextAlign.center,
-                              //               style: const TextStyle(
-                              //                   color: Colors.white,
-                              //                   fontSize: 16),
-                              //             )
-                              //           ],
-                              //         ),
-                              //       );
-                              //     } else if (snapshot.hasError) {
-                              //       Text('${snapshot.error}');
-                              //     }
-
-                              //     // By default, show a loading spinner.
-
-                              //     return const CircularProgressIndicator();
-                              //   },
-                              // )
-                            ],
+                child: SizedBox(
+                  width: 400,
+                  height: 200,
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      Hero(
+                        tag: widget.planetsLocalModal.imagePath.toString(),
+                        child: SizedBox(
+                          height: 150.0, // Provide a height for the SizedBox
+                          child: Image.asset(
+                            widget.planetsLocalModal.imagePath ?? '',
+                            fit: BoxFit.cover,
+                            width: 150,
+                            height: 150,
                           ),
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      Spacer(),
+                      BlocBuilder<PlanetApiCubit, PlanetApiState>(
+                          builder: (context, state) {
+                        //BlocProvider.of<PlanetApiCubit>(context);
+                        if (state is PlanetApiInitial ||
+                            state is LoadingPlanetState) {
+                          return const FrostedGlassBox(
+                            theWidth: 170,
+                            theHeight: 200,
+                            theChild: CircularProgressIndicator(),
+                          );
+                        } else if (state is ResponsePlanetState) {
+                          List<PlanetsAPIModal> planets = state.planetInfo;
+                          List<num?> temperature = planets
+                              .map((planet) => planet.temperature)
+                              .toList();
+                          List<num?> mass =
+                              planets.map((planet) => planet.mass).toList();
+                          List<num?> radius =
+                              planets.map((planet) => planet.radius).toList();
+                          List<num?> distanceLightYear = planets
+                              .map((planet) => planet.distanceLightYear)
+                              .toList();
+
+                          String tempString = temperature.join('');
+                          String massString = mass.join('');
+                          String radString = radius.join('');
+                          String distLightYearString =
+                              distanceLightYear.join('');
+                          return FrostedGlassBox(
+                            theWidth: 170,
+                            theHeight: 200,
+                            theChild: SizedBox(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    "Temperature: \n$tempString K",
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 16),
+                                  ),
+                                  Text(
+                                    "Mass: \n$massString Mj",
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 16),
+                                  ),
+                                  Text(
+                                    "Radius: \n$radString Rj",
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 16),
+                                  ),
+                                  Text(
+                                    "Distance: \n$distLightYearString Light Years",
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        } else if (state is ErrorPlanetState) {
+                          return FrostedGlassBox(
+                            theWidth: 170,
+                            theHeight: 200,
+                            theChild: Text(state.errorMessage),
+                          );
+                        }
+                        return FrostedGlassBox(
+                          theWidth: 170,
+                          theHeight: 200,
+                          theChild: Text(
+                            state.toString(),
+                          ),
+                        );
+                      })
+
+                      // FutureBuilder<List<PlanetsAPIModal>>(
+                      //   future: planetsAPIModal,
+                      //   builder: (context, snapshot) {
+                      //     if (snapshot.hasData) {
+                      //       // Text(
+                      //       //     style: TextStyle(color: Colors.white),
+                      //       //     snapshot.data!
+                      //       //         .map((planet) => planet.temperature)
+                      //       //         .toString());
+
+                      //       List<PlanetsAPIModal> planets =
+                      //           snapshot.data!;
+
+                      //       List<num?> temperature = planets
+                      //           .map((planet) => planet.temperature)
+                      //           .toList();
+                      //       List<num?> mass = planets
+                      //           .map((planet) => planet.mass)
+                      //           .toList();
+                      //       List<num?> radius = planets
+                      //           .map((planet) => planet.radius)
+                      //           .toList();
+                      //       List<num?> distanceLightYear = planets
+                      //           .map((planet) =>
+                      //               planet.distanceLightYear)
+                      //           .toList();
+
+                      //       String tempString = temperature.join('');
+                      //       String massString = mass.join('');
+                      //       String radString = radius.join('');
+                      //       String distLightYearString =
+                      //           distanceLightYear.join('');
+
+                      //       return FrostedGlassBox(
+                      //         theWidth: 170,
+                      //         theHeight: 200,
+                      //         theChild: Column(
+                      //           mainAxisAlignment:
+                      //               MainAxisAlignment.spaceEvenly,
+                      //           children: [
+                      //             Text(
+                      //               "Temperature: \n$tempString K",
+                      //               textAlign: TextAlign.center,
+                      //               style: const TextStyle(
+                      //                   color: Colors.white,
+                      //                   fontSize: 16),
+                      //             ),
+                      //             Text(
+                      //               "Mass: \n$massString Mj",
+                      //               textAlign: TextAlign.center,
+                      //               style: const TextStyle(
+                      //                   color: Colors.white,
+                      //                   fontSize: 16),
+                      //             ),
+                      //             Text(
+                      //               "Radius: \n$radString Rj",
+                      //               textAlign: TextAlign.center,
+                      //               style: const TextStyle(
+                      //                   color: Colors.white,
+                      //                   fontSize: 16),
+                      //             ),
+                      //             Text(
+                      //               "Distance: \n$distLightYearString Light Years",
+                      //               textAlign: TextAlign.center,
+                      //               style: const TextStyle(
+                      //                   color: Colors.white,
+                      //                   fontSize: 16),
+                      //             )
+                      //           ],
+                      //         ),
+                      //       );
+                      //     } else if (snapshot.hasError) {
+                      //       Text('${snapshot.error}');
+                      //     }
+
+                      //     // By default, show a loading spinner.
+
+                      //     return const CircularProgressIndicator();
+                      //   },
+                      // )
+                    ],
+                  ),
                 ),
               ),
               Expanded(

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:spacenetic_flutter/UI/pages/home_swipe_view.dart';
 // import 'package:spacenetic_flutter/Functions/fetch_planetAPI.dart';
 // import 'package:spacenetic_flutter/StateManagement/api_cubit/cubit/planet_api_cubit.dart';
 import 'package:spacenetic_flutter/UI/pages/homepage.dart';
@@ -24,11 +25,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      // home: SignUpPage(),
-      //home: LoginPage());
-      //home: HomePage());
-      home: DisplayNews(),
-    );
+        // home: SignUpPage(),
+        //home: LoginPage());
+        //home: HomePage());
+        // home: DisplayNews(),
+        // home: MyHomeSwipeView(),
+        );
     //home: TimelineWidget(),
   }
 }
