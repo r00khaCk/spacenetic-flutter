@@ -4,13 +4,13 @@ import 'package:spacenetic_flutter/Classes/planets_api_modal.dart';
 import '../Classes/planets_local_modal.dart';
 
 class FetchPlanetAPI {
-  String apiKey = 'eGR/0NxGMAX1bTWckJZD6g==FUnphEgVDRCeNyn8';
+  final String _apiKey = 'eGR/0NxGMAX1bTWckJZD6g==FUnphEgVDRCeNyn8';
 
   Future<List<PlanetsAPIModal>> getPlanetAPI(String planetName) async {
     List<PlanetsAPIModal> list;
     var response = await http.get(
       Uri.parse('https://api.api-ninjas.com/v1/planets?name=$planetName'),
-      headers: {'X-Api-Key': apiKey},
+      headers: {'X-Api-Key': _apiKey},
     );
 
     if (response.statusCode == 200) {
