@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:spacenetic_flutter/Functions/fetch_newsAPI.dart';
-import 'package:spacenetic_flutter/StateManagement/api_cubit/cubit/news_api_cubit.dart';
+import 'package:spacenetic_flutter/StateManagement/api_cubit/NewsApi_cubit/news_api_cubit.dart';
 import 'package:spacenetic_flutter/UI/pages/homepage.dart';
 import 'package:spacenetic_flutter/UI/pages/news_page.dart';
 
@@ -31,7 +29,9 @@ class _MyHomeSwipeViewState extends State<MyHomeSwipeView> {
         children: [
           HomePage(),
           BlocProvider(
-            create: (_) => NewsApiCubit(FetchNewsAPI()),
+            create: (_) => NewsApiCubit(
+              FetchNewsAPI(),
+            ),
             child: SpaceNews(),
           ),
         ],
