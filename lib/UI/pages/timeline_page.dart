@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:spacenetic_flutter/Classes/timeline/space_event.dart';
 import 'package:timeline_list/timeline.dart';
 import 'package:timeline_list/timeline_model.dart';
@@ -25,7 +26,16 @@ class _TimelinePageState extends State<TimelinePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: Center(child: Text("Space Exploration Timeline")),
+        title: Center(
+          child: Text(
+            "Space Exploration Timeline",
+            style: GoogleFonts.orbitron(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
       // body: PageView(
       //   onPageChanged: (i) => setState(() => pageIx = i),
@@ -76,13 +86,20 @@ class _TimelinePageState extends State<TimelinePage> {
                 const SizedBox(
                   height: 8.0,
                 ),
-                Text(spaceEvent.year, style: textTheme.titleMedium),
+                Text(
+                  spaceEvent.year,
+                  style: GoogleFonts.orbitron(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(
                   height: 8.0,
                 ),
                 Text(
                   spaceEvent.eventDescription,
-                  style: textTheme.bodySmall,
+                  style: textTheme.bodyMedium,
                 ),
                 const SizedBox(
                   height: 8.0,
