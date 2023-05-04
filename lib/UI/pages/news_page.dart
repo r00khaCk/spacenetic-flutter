@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:spacenetic_flutter/Classes/news_modal.dart';
 import 'package:spacenetic_flutter/Functions/fetch_newsAPI.dart';
-import 'package:spacenetic_flutter/StateManagement/api_cubit/cubit/news_api_cubit.dart';
+import 'package:spacenetic_flutter/StateManagement/api_cubit/NewsAPi_cubit/news_api_cubit.dart';
 import 'package:spacenetic_flutter/UI/widgets/frostedglass.dart';
 
 class DisplayNews extends StatelessWidget {
@@ -17,7 +18,7 @@ class DisplayNews extends StatelessWidget {
       create: (_) => NewsApiCubit(
         FetchNewsAPI(),
       ),
-      child: const SpaceNews(),
+      child: SpaceNews(),
     );
   }
 }
@@ -44,11 +45,24 @@ class _SpaceNewsState extends State<SpaceNews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        elevation: 0,
-        title: const Text("News"),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        title: Center(
+          child: Text(
+            "News",
+            style: GoogleFonts.orbitron(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
       body: Container(
+        padding: const EdgeInsets.only(top: 20),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: const AssetImage("assets/images/main-bg.png"),
@@ -68,7 +82,7 @@ class _SpaceNewsState extends State<SpaceNews> {
             } else if (state is ResponseNewsState) {
               List<NewsModal> news = state.newsInfo;
               return ListView.builder(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.only(top: 100),
                 itemCount: news.length,
                 itemBuilder: ((context, index) {
                   final articles = news[index];
@@ -83,7 +97,7 @@ class _SpaceNewsState extends State<SpaceNews> {
                       borderRadius: BorderRadius.circular(30.0), //<-- SEE HERE
                     ),
                     child: FrostedGlassBox(
-                      theHeight: 100,
+                      theHeight: 150,
                       theWidth: 100,
                       theChild: ListTile(
                         leading: SizedBox(
@@ -98,7 +112,15 @@ class _SpaceNewsState extends State<SpaceNews> {
                         ),
                         title: Text(
                           title!,
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        subtitle: Text(
+                          description!,
+                          style: const TextStyle(
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     ),

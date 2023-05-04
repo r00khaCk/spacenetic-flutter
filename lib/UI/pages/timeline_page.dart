@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:spacenetic_flutter/Classes/timeline/space_event.dart';
 import 'package:timeline_list/timeline.dart';
 import 'package:timeline_list/timeline_model.dart';
@@ -20,6 +21,22 @@ class _TimelinePageState extends State<TimelinePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        title: Center(
+          child: Text(
+            "Space Exploration Timeline",
+            style: GoogleFonts.orbitron(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
       // body: PageView(
       //   onPageChanged: (i) => setState(() => pageIx = i),
       //   controller: pageController,
@@ -37,7 +54,7 @@ class _TimelinePageState extends State<TimelinePage> {
   }
 
   timelineModel(TimelinePosition position) => Timeline.builder(
-        lineColor: Colors.white,
+        lineColor: Colors.blueAccent,
         itemBuilder: centerTimeBuilder,
         itemCount: spaceEvents.length,
         physics: position == TimelinePosition.Center
@@ -51,6 +68,7 @@ class _TimelinePageState extends State<TimelinePage> {
     final textTheme = Theme.of(context).textTheme;
     return TimelineModel(
         Card(
+          color: Color.fromARGB(1, 43, 45, 66),
           margin: EdgeInsets.symmetric(vertical: 50.0, horizontal: 10),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
@@ -68,13 +86,20 @@ class _TimelinePageState extends State<TimelinePage> {
                 const SizedBox(
                   height: 8.0,
                 ),
-                Text(spaceEvent.year, style: textTheme.titleMedium),
+                Text(
+                  spaceEvent.year,
+                  style: GoogleFonts.orbitron(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(
                   height: 8.0,
                 ),
                 Text(
                   spaceEvent.eventDescription,
-                  style: textTheme.bodySmall,
+                  style: textTheme.bodyMedium,
                 ),
                 const SizedBox(
                   height: 8.0,
