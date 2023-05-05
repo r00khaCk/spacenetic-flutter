@@ -1,14 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:spacenetic_flutter/Functions/show_snackbar.dart';
-import 'package:spacenetic_flutter/UI/pages/homepage.dart';
 
 class FirebaseAuthMethods {
   final FirebaseAuth _auth;
   FirebaseAuthMethods(this._auth);
+
+  Stream<User?> get user => _auth.idTokenChanges();
 
   //Email sign up function
   Future<void> signUpWithEmail({
@@ -17,6 +19,43 @@ class FirebaseAuthMethods {
     required String password,
     required BuildContext context,
   }) async {
+    //Store username in Firestore
+    try {
+      final UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      if (userCredential.user != null) {
+        final userData = {
+          'uid': userCredential.user!.uid,
+          'username': username, // Add username to the userData map
+          'email': email,
+        };
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .set(
+                userData); // Create a new document with the user's UID as its document ID and store the user's information in Cloud Firestore
+        //Log the user in
+        await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+
+        //Get the signed in user
+        final currentUser = _auth.currentUser;
+        if (currentUser != null) {
+          Navigator.pushReplacementNamed(context, '/home');
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error storing username: $e'),
+        ),
+      );
+      return;
+    }
+
     //Check username availability
     final usernameAvailable = await _usernameAvailable(username);
 
@@ -72,6 +111,7 @@ class FirebaseAuthMethods {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       await sendEmailVerification(context);
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Email verification link sent!'),
@@ -92,7 +132,7 @@ class FirebaseAuthMethods {
         );
       }
     } catch (e) {
-      print('Error: $e');
+      // print('Error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Failed to create account. Please try again later.'),
@@ -126,13 +166,19 @@ class FirebaseAuthMethods {
       return;
     }
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      if (!_auth.currentUser!.emailVerified) {
-        await sendEmailVerification(context);
-      }
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const HomePage()),
-      );
+      StreamSubscription<User?>? userSubscription;
+
+      userSubscription =
+          FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+        await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        if (!_auth.currentUser!.emailVerified) {
+          await sendEmailVerification(context);
+        }
+        Navigator.pushReplacementNamed(context, '/home');
+
+        await userSubscription?.cancel();
+      });
     } on FirebaseAuthException catch (e) {
       String errorMessage;
       switch (e.code) {
@@ -142,6 +188,10 @@ class FirebaseAuthMethods {
         case 'user-not-found':
         case 'wrong-password':
           errorMessage = 'Invalid email or password. Please try again.';
+          break;
+        case 'email-already-in-use':
+          errorMessage =
+              'The email address is already in use by another account.';
           break;
         default:
           errorMessage = 'An error occured. Please try again later.';
@@ -184,82 +234,106 @@ class FirebaseAuthMethods {
     }
   }
 
-  //Google sign in (not working)
-//   Future<void> signInWithGoogle(BuildContext context) async {
-//     try {
-//       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-//       final GoogleSignInAuthentication? googleAuth =
-//           await googleUser?.authentication;
-
-//       if (googleAuth?.accessToken != null && googleAuth?.idToken != null) {
-//         final credential = GoogleAuthProvider.credential(
-//           accessToken: googleAuth?.accessToken,
-//           idToken: googleAuth?.idToken,
-//         );
-//         UserCredential userCredential =
-//             await _auth.signInWithCredential(credential);
-//         if (userCredential.user != null) {
-//           if (userCredential.additionalUserInfo!.isNewUser) {
-//             //Obtain user's basic information from Google account
-//             final googleUserInfo = googleUser?.email != null
-//                 ? {
-//                     'name': googleUser?.displayName ?? '',
-//                     'email': googleUser?.email ?? '',
-//                   }
-//                 : null;
-
-//             //Create a new user account in Firebase and store their basic information
-//             final email = googleUser?.email;
-//             if (email != null) {
-//               await _auth.currentUser!.updateEmail(email);
-//             }
-//             await _auth.currentUser!.updatePassword('google_sign_in_only');
-//             await FirebaseFirestore.instance
-//                 .collection('users')
-//                 .doc(userCredential.user!.uid)
-//                 .set(googleUserInfo ?? {});
-
-//             //Navigate new user to Homepage after successful login
-//             Navigator.of(context).pushReplacement(
-//               MaterialPageRoute(builder: (_) => const HomePage()),
-//             );
-//           } else {
-//             //Navigate existing user to Homepage after successful login
-//             Navigator.of(context).pushReplacement(
-//               MaterialPageRoute(builder: (_) => const HomePage()),
-//             );
-//           }
-//         } else {
-//           await _auth.signOut();
-//           ScaffoldMessenger.of(context).showSnackBar(
-//             const SnackBar(
-//               content: Text('To use the app, please sign up.'),
-//             ),
-//           );
-//         }
-//       }
-//     } on FirebaseAuthException catch (e) {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         const SnackBar(
-//           content:
-//               Text('Error signing in with Google. Please try again later.'),
-//         ),
-//       );
-//       return;
-//     }
-//   }
-// }
+  //Reset user password
+  Future<void> resetPassword(
+      {required String email, required BuildContext context}) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password reset email sent!'),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to send password reset email.'),
+        ),
+      );
+    }
+  }
 
   //Google sign in
+  // Future<void> signInWithGoogle(BuildContext context) async {
+  //   try {
+  //     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  //     final GoogleSignInAuthentication? googleAuth =
+  //         await googleUser?.authentication;
+
+  //     // if (googleAuth?.accessToken == null || googleAuth?.idToken == null) {
+  //     //   throw Exception('Failed to authenticate with Google.');
+  //     // }
+
+  //     final credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth?.accessToken,
+  //       idToken: googleAuth?.idToken,
+  //     );
+
+  //     UserCredential userCredential =
+  //         await FirebaseAuth.instance.signInWithCredential(credential);
+
+  //     // if (userCredential.user == null) {
+  //     //   throw Exception('Failed to sign in with Google.');
+  //     // }
+
+  //     if (userCredential.additionalUserInfo!.isNewUser) {
+  //       // Obtain user's basic information from Google account
+  //       final googleUserInfo = googleUser?.email != null
+  //           ? {
+  //               'name': googleUser?.displayName ?? '',
+  //               'email': googleUser?.email ?? '',
+  //             }
+  //           : null;
+
+  //       // Create a new user account in Firebase and store their basic information
+  //       final email = googleUser?.email;
+  //       if (email != null) {
+  //         await FirebaseAuth.instance.currentUser!
+  //             .updateEmail(email)
+  //             .catchError((e) {
+  //           throw Exception('Failed to update email.');
+  //         });
+  //       }
+
+  //       await FirebaseAuth.instance.currentUser!
+  //           .updatePassword('google_sign_in_only')
+  //           .catchError((e) {
+  //         throw Exception('Failed to update password.');
+  //       });
+
+  //       await FirebaseFirestore.instance
+  //           .collection('users')
+  //           .doc(userCredential.user!.uid)
+  //           .set(googleUserInfo ?? {})
+  //           .catchError((e) {
+  //         throw Exception('Failed to store user information.');
+  //       });
+
+  //       // Navigate new user to Homepage after successful login
+  //       Navigator.pushNamed(context, '/home');
+  //     } else {
+  //       // Navigate existing user to Homepage after successful login
+  //       Navigator.pushNamed(context, '/home');
+  //     }
+  //   } catch (e) {
+  //     // Catch any general exceptions that may occur during the function execution
+  //     await FirebaseAuth.instance.signOut();
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content:
+  //             Text('Failed to sign in with Google. Please try again later.'),
+  //       ),
+  //     );
+  //     Navigator.pushNamed(context, '/main');
+  //   }
+  // }
+
+  //Google sign in with currentUser stored
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
-
-      // if (googleAuth?.accessToken == null || googleAuth?.idToken == null) {
-      //   throw Exception('Failed to authenticate with Google.');
-      // }
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
@@ -269,60 +343,50 @@ class FirebaseAuthMethods {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
-      // if (userCredential.user == null) {
-      //   throw Exception('Failed to sign in with Google.');
-      // }
+      StreamSubscription<User?>? userSubscription;
 
-      if (userCredential.additionalUserInfo!.isNewUser) {
-        // Obtain user's basic information from Google account
-        final googleUserInfo = googleUser?.email != null
-            ? {
-                'name': googleUser?.displayName ?? '',
-                'email': googleUser?.email ?? '',
-              }
-            : null;
+      userSubscription =
+          FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+        if (user != null) {
+          if (userCredential.additionalUserInfo!.isNewUser) {
+            // Obtain user's basic information from Google account
+            final googleUserInfo = googleUser?.email != null
+                ? {
+                    'name': googleUser?.displayName ?? '',
+                    'email': googleUser?.email ?? '',
+                  }
+                : null;
 
-        // Create a new user account in Firebase and store their basic information
-        final email = googleUser?.email;
-        if (email != null) {
-          await FirebaseAuth.instance.currentUser!
-              .updateEmail(email)
-              .catchError((e) {
-            throw Exception('Failed to update email.');
-          });
+            // Create a new user account in Firebase and store their basic information
+            final email = googleUser?.email;
+            if (email != null) {
+              await user.updateEmail(email).catchError((e) {
+                throw Exception('Failed to update email.');
+              });
+            }
+
+            await user.updatePassword('google_sign_in_only').catchError((e) {
+              throw Exception('Failed to update password.');
+            });
+
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .set(googleUserInfo ?? {})
+                .catchError((e) {
+              throw Exception('Failed to store user information.');
+            });
+
+            // Navigate new user to Homepage after successful login
+            Navigator.pushReplacementNamed(context, '/home');
+          } else {
+            // Navigate existing user to Homepage after successful login
+            Navigator.pushReplacementNamed(context, '/home');
+          }
+
+          await userSubscription?.cancel();
         }
-
-        await FirebaseAuth.instance.currentUser!
-            .updatePassword('google_sign_in_only')
-            .catchError((e) {
-          throw Exception('Failed to update password.');
-        });
-
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(userCredential.user!.uid)
-            .set(googleUserInfo ?? {})
-            .catchError((e) {
-          throw Exception('Failed to store user information.');
-        });
-
-        // Navigate new user to Homepage after successful login
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const HomePage()),
-        );
-      } else {
-        // Navigate existing user to Homepage after successful login
-        Navigator.push(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (_, __, ___) => const HomePage(),
-            transitionsBuilder: (_, animation, __, child) => FadeTransition(
-              opacity: animation,
-              child: child,
-            ),
-          ),
-        );
-      }
+      });
     } catch (e) {
       // Catch any general exceptions that may occur during the function execution
       await FirebaseAuth.instance.signOut();
@@ -332,7 +396,12 @@ class FirebaseAuthMethods {
               Text('Failed to sign in with Google. Please try again later.'),
         ),
       );
-      return;
+      Navigator.pushNamed(context, '/main');
     }
+  }
+
+  Future<void> signOutUser(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushNamed(context, '/main');
   }
 }

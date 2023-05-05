@@ -27,30 +27,31 @@ class _MyHomeSwipeViewState extends State<MyHomeSwipeView> {
           });
         },
         children: [
-          HomePage(),
+          const HomePage(),
           BlocProvider(
             create: (_) => NewsApiCubit(
               FetchNewsAPI(),
             ),
-            child: DisplayNews(),
+            child: const DisplayNews(),
           ),
         ],
       ),
       bottomNavigationBar: Container(
-        color: Color.fromARGB(255, 6, 30, 66),
+        color: const Color.fromARGB(255, 6, 30, 66),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
           child: GNav(
-            backgroundColor: Color.fromARGB(255, 6, 30, 66),
+            backgroundColor: const Color.fromARGB(255, 6, 30, 66),
             color: Colors.white,
             activeColor: Colors.white,
             tabBackgroundColor: Colors.grey.shade800,
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             gap: 8,
             onTabChange: (index) {
               setState(() {
                 _pageController.animateToPage(index,
-                    duration: Duration(milliseconds: 500), curve: Curves.ease);
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease);
               });
             },
             tabs: const [
