@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const MyHomeSwipeView(),
+      home: const SplashscreenPage(),
       routes: {
         '/main': (context) => const SplashscreenPage(),
         '/home': (context) => const MyHomeSwipeView(),
