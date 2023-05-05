@@ -6,7 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spacenetic_flutter/Classes/news_modal.dart';
 import 'package:spacenetic_flutter/Functions/fetch_newsAPI.dart';
-import 'package:spacenetic_flutter/StateManagement/api_cubit/NewsAPi_cubit/news_api_cubit.dart';
+import 'package:spacenetic_flutter/StateManagement/api_cubit/NewsApi_cubit/news_api_cubit.dart';
+
 import 'package:spacenetic_flutter/UI/widgets/frostedglass.dart';
 
 class DisplayNews extends StatelessWidget {
