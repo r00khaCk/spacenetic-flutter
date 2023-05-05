@@ -193,6 +193,8 @@ class _PlanetDetailsPageState extends State<PlanetDetailsPage> {
                             theWidth: 170,
                             theHeight: 200,
                             theChild: Text(
+                              state.errorMessage,
+                              style: const TextStyle(color: Colors.white),
                               state.toString(),
                             ),
                           );
