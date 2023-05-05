@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:spacenetic_flutter/UI/pages/home_swipe_view.dart';
-import 'package:spacenetic_flutter/UI/pages/homepage.dart';
 import 'package:spacenetic_flutter/UI/pages/signin_page.dart';
 import 'package:spacenetic_flutter/UI/pages/signup_page.dart';
 import 'package:spacenetic_flutter/UI/pages/splashscreen.dart';
