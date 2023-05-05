@@ -242,6 +242,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pushNamed(context, '/timeline');
               },
             ),
+            
             const Expanded(
               child: SizedBox(
                 height: 330,

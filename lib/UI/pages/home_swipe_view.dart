@@ -27,7 +27,7 @@ class _MyHomeSwipeViewState extends State<MyHomeSwipeView> {
           });
         },
         children: [
-          const HomePage(),
+          HomePage(),
           BlocProvider(
             create: (_) => NewsApiCubit(
               FetchNewsAPI(),
