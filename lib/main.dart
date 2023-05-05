@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         '/main': (context) => const SplashscreenPage(),
         '/home': (context) => const MyHomeSwipeView(),
         '/signin': (context) => const SignInPage(),
-        'signup': (context) => const SignUpPage(),
+        '/signup': (context) => const SignUpPage(),
         '/timeline': (context) => const TimelinePage(),
       },
     );

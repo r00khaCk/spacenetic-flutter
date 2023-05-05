@@ -133,12 +133,12 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10),
+              padding: const EdgeInsets.only(left: 10.0, right: 10, top: 100),
               child: Row(
                 children: [
                   const Spacer(),
                   Container(
-                    width: 150,
+                    width: 370,
                     height: 80,
                     padding:
                         const EdgeInsets.only(left: 20, top: 20, bottom: 5),
@@ -150,13 +150,13 @@ class _HomePageState extends State<HomePage> {
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (!snapshot.hasData) {
-                          return const Text(
+                          return Text(
                             'Hi User,',
-                            style: TextStyle(
-                              fontSize: 30,
+                            style: GoogleFonts.abel(
+                              fontSize: 40,
                               color: Colors.white,
-                              fontWeight: FontWeight.bold,
                               letterSpacing: 1,
+                              fontWeight: FontWeight.bold,
                             ),
                           );
                         }
@@ -164,9 +164,9 @@ class _HomePageState extends State<HomePage> {
                             snapshot.data!.data() as Map<String, dynamic>;
                         final username = data['username'] ?? 'User';
                         return Text(
-                          'Hi $username,', // add this line
-                          style: const TextStyle(
-                            fontSize: 30,
+                          'Hi $username,',
+                          style: GoogleFonts.abel(
+                            fontSize: 40,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
@@ -194,8 +194,8 @@ class _HomePageState extends State<HomePage> {
                     //   color: Colors.white,
                     // ),
                     "Let's Explore Our Solar System!",
-                    style: GoogleFonts.orbitron(
-                      fontSize: 20,
+                    style: GoogleFonts.abel(
+                      fontSize: 24,
                       color: Colors.white,
                     ),
                   ),
@@ -258,7 +258,7 @@ class _HomePageState extends State<HomePage> {
             // ),
             const Expanded(
               child: SizedBox(
-                height: 280,
+                height: 330,
               ),
             ),
             Column(
