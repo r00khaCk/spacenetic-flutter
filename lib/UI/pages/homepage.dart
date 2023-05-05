@@ -159,19 +159,20 @@ class _HomePageState extends State<HomePage> {
                               fontWeight: FontWeight.bold,
                             ),
                           );
+                        } else {
+                          final data =
+                              snapshot.data!.data() as Map<String, dynamic>;
+                          final username = data['username'] ?? 'User';
+                          return Text(
+                            'Hi $username,',
+                            style: GoogleFonts.abel(
+                              fontSize: 40,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1,
+                            ),
+                          );
                         }
-                        final data =
-                            snapshot.data!.data() as Map<String, dynamic>;
-                        final username = data['username'] ?? 'User';
-                        return Text(
-                          'Hi $username,',
-                          style: GoogleFonts.abel(
-                            fontSize: 40,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1,
-                          ),
-                        );
                       },
                     ),
                   ),
@@ -241,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pushNamed(context, '/timeline');
               },
             ),
-
+            
             const Expanded(
               child: SizedBox(
                 height: 330,
