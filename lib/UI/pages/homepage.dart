@@ -241,21 +241,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pushNamed(context, '/timeline');
               },
             ),
-            // Not implemented
-            // ListTile(
-            //   title: Text(
-            //     "Favourite Planets",
-            //     style: GoogleFonts.orbitron(
-            //       fontSize: 15,
-            //       color: Colors.black,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            //   onTap: () {
-            //     // Navigator.of(context).push(MaterialPageRoute(
-            //     //     builder: (context) => const TimelinePage()));
-            //   },
-            // ),
+
             const Expanded(
               child: SizedBox(
                 height: 330,
