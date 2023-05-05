@@ -1,14 +1,30 @@
 name: spacenetic_flutter
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
+  sdk: ">=2.19.6 <3.0.0"
 
 dependencies:
+  bloc: ^8.1.1
+  carousel_slider: ^4.2.1
+  equatable: ^2.0.5
+  firebase_auth: ^4.4.2
+  firebase_ui_auth: ^1.2.4
+  firebase_core: ^2.10.0
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.2
+  flutter_signin_button: ^2.0.0
+  google_fonts: ^4.0.4
+  google_sign_in: ^5.4.4
+  http: ^0.13.5
+  lottie: ^2.3.2
+  flutterfire_ui: ^0.4.3+20
+  cloud_firestore: ^4.5.3
+  timeline_list: ^0.0.6
+  google_nav_bar: ^5.0.6
 
 dev_dependencies:
   flutter_test:
@@ -17,3 +33,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
+    - assets/animations/
+    - assets/images/
+    - assets/images/timeline_assets/
+    - assets/animations/
