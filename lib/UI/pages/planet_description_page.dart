@@ -6,7 +6,7 @@ import 'package:spacenetic_flutter/Classes/planets_api_modal.dart';
 import 'package:spacenetic_flutter/Classes/planets_local_modal.dart';
 import 'package:spacenetic_flutter/Functions/fetch_planetAPI.dart';
 import 'package:spacenetic_flutter/StateManagement/api_cubit/SpaceApi_cubit/planet_api_cubit.dart';
-import 'package:spacenetic_flutter/StateManagement/api_cubit/SpaceApi_cubit/planet_api_cubit.dart';
+// import 'package:spacenetic_flutter/StateManagement/api_cubit/SpaceApi_cubit/planet_api_cubit.dart';
 import 'package:spacenetic_flutter/UI/widgets/frostedglass.dart';
 
 class DisplayPlanetDetails extends StatelessWidget {
