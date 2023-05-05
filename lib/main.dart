@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       home: const MyHomeSwipeView(),
       routes: {
         '/main': (context) => const SplashscreenPage(),
-        '/home': (context) => const HomePage(),
+        '/home': (context) => const MyHomeSwipeView(),
         '/signin': (context) => const SignInPage(),
         'signup': (context) => const SignUpPage(),
         '/timeline': (context) => const TimelinePage(),
