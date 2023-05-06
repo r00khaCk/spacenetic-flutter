@@ -1,4 +1,4 @@
-# spacenetic_flutter
+# Spacenetic (In-development)
 
 A space app built using Flutter. <br>This app will show you
 
