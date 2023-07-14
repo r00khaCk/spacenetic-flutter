@@ -5,7 +5,6 @@ import 'package:spacenetic_flutter/Classes/news_modal.dart';
 // import '../Classes/planets_local_modal.dart';
 
 class FetchNewsAPI {
-  //String apiKey = 'eGR/0NxGMAX1bTWckJZD6g==FUnphEgVDRCeNyn8';
 
   Future<List<NewsModal>> getNewsAPI() async {
     List<NewsModal> list;
