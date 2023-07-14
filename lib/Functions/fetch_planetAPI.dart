@@ -4,7 +4,7 @@ import 'package:spacenetic_flutter/Classes/planets_api_modal.dart';
 import '../Classes/planets_local_modal.dart';
 
 class FetchPlanetAPI {
-  final String _apiKey = 'eGR/0NxGMAX1bTWckJZD6g==FUnphEgVDRCeNyn8';
+
 
   Future<List<PlanetsAPIModal>> getPlanetAPI(String planetName) async {
     List<PlanetsAPIModal> list;
